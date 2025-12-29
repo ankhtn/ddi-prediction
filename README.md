@@ -2,6 +2,10 @@
 
 This repository contains an implementation of a Drug–Drug Interaction (DDI) prediction model using graph-based similarity measures, label propagation, and an ensemble of base models whose weights are optimized via a genetic algorithm (DEAP).
 
+This project mainly re-implements and refactors the method described in:
+“Predicting potential drug-drug interactions by integrating chemical, biological, phenotypic and network data”
+(BMC Bioinformatics, 2017). Original article: [https://link.springer.com/article/10.1186/s12859-016-1415-9](https://doi.org/10.1186/s12859-016-1415-9)
+
 ---
 
 ## Project structure
@@ -87,4 +91,15 @@ Evaluation metrics:
 - AUC (ROC)
 - AUPR
 - Precision, Recall, Accuracy, F1-score
+```
+
+## Reference & Acknowledgements
+
+```text
+This work is mainly based on and inspired by:
+
+Wen Zhang et al., “Predicting potential drug-drug interactions by integrating chemical, biological, phenotypic and network data”, BMC Bioinformatics, 2017.
+Original article: [https://link.springer.com/article/10.1186/s12859-016-1415-9](https://doi.org/10.1186/s12859-016-1415-9)
+
+The goal of this repository is to reproduce and refactor the original method for learning and research purposes.
 ```
