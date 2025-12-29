@@ -1,0 +1,11 @@
+# Python cache & compiled files
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Data & results 
+dataset/
+result/
