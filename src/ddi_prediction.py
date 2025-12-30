@@ -32,20 +32,20 @@ def cross_validation(drug_drug_matrix, CV_num, seed, file_results, file_weights)
     # Khởi tạo biến lưu số lượng liên kết (links) và các vị trí của liên kết, không phải liên kết
     link_number = 0
     link_position = []
-    nonLinksPosition = []  # Danh sách tất cả các vị trí không phải liên kết (non-links)
+    nonLinksPosition = [] 
 
     # Duyệt qua ma trận drug-drug để xác định các liên kết (link) và không phải liên kết
     for i in range(0, len(drug_drug_matrix)):
         for j in range(i + 1, len(drug_drug_matrix)):
-            if drug_drug_matrix[i, j] == 1:  # Nếu là liên kết
+            if drug_drug_matrix[i, j] == 1:  
                 link_number = link_number + 1
-                link_position.append([i, j])  # Lưu vị trí của liên kết
-            else:  # Nếu không phải là liên kết
-                nonLinksPosition.append([i, j])  # Lưu vị trí của không phải liên kết
+                link_position.append([i, j])  
+            else:  
+                nonLinksPosition.append([i, j]) 
 
-    link_position = np.array(link_position)  # Chuyển danh sách các liên kết thành numpy array
+    link_position = np.array(link_position)  
     random.seed(seed)  # Đặt seed cho việc tạo số ngẫu nhiên
-    index = np.arange(0, link_number)  # Tạo mảng các chỉ số từ 0 đến link_number - 1
+    index = np.arange(0, link_number) 
     random.shuffle(index)  # Xáo trộn chỉ số ngẫu nhiên
 
     # Xác định số lượng fold cho cross-validation
@@ -58,8 +58,8 @@ def cross_validation(drug_drug_matrix, CV_num, seed, file_results, file_weights)
 
         # Chọn các chỉ số của các liên kết test trong fold hiện tại
         test_index = index[(CV * fold_num) : ((CV + 1) * fold_num)]
-        test_index.sort()  # Sắp xếp lại các chỉ số của liên kết test
-        testLinkPosition = link_position[test_index]  # Lấy vị trí của các liên kết test
+        test_index.sort() 
+        testLinkPosition = link_position[test_index] 
 
         # Tạo bản sao của ma trận drug-drug và loại bỏ các liên kết trong ma trận train
         train_drug_drug_matrix = copy.deepcopy(drug_drug_matrix)
@@ -176,31 +176,20 @@ class Topology:
             np.matrix(RWR_similarity_matrix),
         )
 
-
 def load_csv(filename, type):
-    # Khởi tạo danh sách để lưu dữ liệu ma trận
     matrix_data = []
-
-    # Mở tệp CSV và đọc dữ liệu
     with open(filename, "r") as csvfile:
         csvreader = csv.reader(csvfile)
-        # Bỏ qua dòng đầu tiên (thường là header)
         next(csvreader)
 
-        # Duyệt qua từng dòng trong tệp CSV
         for row_vector in csvreader:
-            # Kiểm tra kiểu dữ liệu, nếu 'int' thì chuyển đổi mỗi phần tử thành kiểu int
             if type == "int":
-                matrix_data.append(list(map(int, row_vector[1:])))  # Bỏ qua phần tử đầu tiên (thường là id hoặc tên)
+                matrix_data.append(list(map(int, row_vector[1:])))  
             else:
-                # Nếu không phải kiểu int, chuyển đổi thành kiểu float
                 matrix_data.append(
                     list(map(float, row_vector[1:]))
-                )  # Tương tự, bỏ qua phần tử đầu tiên
-
-    # Trả về ma trận NumPy từ danh sách matrix_data
+                )  
     return np.matrix(matrix_data)
-
 
 def modelEvaluation(real_matrix, predict_matrix, testPosition, featurename):
     # Khởi tạo danh sách để lưu trữ nhãn thực và xác suất dự đoán
@@ -215,17 +204,13 @@ def modelEvaluation(real_matrix, predict_matrix, testPosition, featurename):
         # Lưu giá trị dự đoán từ ma trận predict_matrix
         predicted_probability.append(predict_matrix[testPosition[i][0], testPosition[i][1]])
 
-    # Chuyển đổi danh sách thành mảng NumPy
     real_labels = np.array(real_labels)
     predicted_probability = np.array(predicted_probability)
 
-    # Tính Precision-Recall curve
     precision, recall, pr_thresholds = precision_recall_curve(real_labels, predicted_probability)
 
-    # Tính AUPR (Area Under Precision-Recall curve)
     aupr_score = auc(recall, precision)
 
-    # Khởi tạo mảng chứa F1-score cho mỗi threshold
     all_F_measure = np.zeros(len(pr_thresholds))
 
     # Tính F1-score cho mỗi threshold trong pr_thresholds
@@ -269,8 +254,7 @@ def modelEvaluation(real_matrix, predict_matrix, testPosition, featurename):
 
 def fitFunction(individual, parameter1, parameter2):
     """
-    Hàm fitness cho thuật toán di truyền, dùng để đánh giá chất lượng của một vector trọng số
-    trong mô hình ensemble.
+    Hàm fitness cho thuật toán di truyền, dùng để đánh giá chất lượng của một vector trọng số trong mô hình ensemble.
     """
     # Giả sử individual là một vector trọng số của các mô hình trong ensemble.
     # Chúng ta sẽ kết hợp các dự đoán của các mô hình này bằng cách nhân với trọng số tương ứng và cộng lại.
@@ -404,7 +388,7 @@ class MethodHub:
         """
         Phương pháp dựa vào ma trận tương tự hàng xóm (neighbor-based similarity).
         """
-        # Chuẩn hóa similarity_matrix để mỗi dòng có tổng là 1 (nếu có thể)
+        # Chuẩn hóa similarity_matrix 
         similarity_matrix = np.matrix(similarity_matrix)
         train_drug_drug_matrix = np.matrix(train_drug_drug_matrix)
 
@@ -507,8 +491,7 @@ class MethodHub:
 
 def ensemble_method(drug_drug_matrix, train_drug_drug_matrix, testPosition):
     """
-    Kết hợp nhiều phương pháp dựa trên các ma trận tương tự và lan truyền nhãn
-    để dự đoán ma trận tương tác thuốc-drug (drug-drug interaction matrix).
+    Kết hợp nhiều phương pháp dựa trên các ma trận tương tự và lan truyền nhãn để dự đoán ma trận tương tác thuốc-drug (drug-drug interaction matrix).
     """
 
     # Tải các ma trận tương tự (similarity matrix) từ các nguồn khác nhau
